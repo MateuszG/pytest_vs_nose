@@ -1,0 +1,641 @@
+<!--
+Google IO 2012/2013 HTML5 Slide Template
+
+Authors: Eric Bidelman <ebidel@gmail.com>
+         Luke Mahé <lukem@google.com>
+
+URL: https://code.google.com/p/io-2012-slides
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/google_developers_logo.png"></span>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Krótki opis</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li><b>nose</b> - jest rozszerzeniem możliwości z unittesta(dawny PyUnit), PyTest i DocTesta, który zapewnia przede wszsytkim łatwość dodawania pluginów porpzez dobrze udokumentowane API.</li>
+        <li><b>py.test</b> - to w pełnym znaczeniu freamwork testowy, oferujący wiele opcji min. sprawdzanie PEP8, Junit, obsługuje unittesta.
+          <ul>
+            <li><b>py.test</b> to najbardziej zaawansowany projekt i co ważne nadal rozwijany, który zawiera większość funkcji z innych narzędzi testowych.</li>
+          </ul>
+        </li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Szybkość wykonywania testów py.test vs nosetests</h2>
+      <!-- <h3>Subtitle Placeholder</h3> -->
+    </hgroup>
+    <article class="smaller">
+      <p>We wcześniejszych wersjach szybkość py.testa była gorsza. Teraz różnica między nose-m a pytestem jest nieznacząca i bardzo zależna od ilość pluginów i użytych opcji.</p>
+      <pre class="prettyprint" data-lang="shell">
+      $ time(py.test testy.py)
+      
+      ======================== 1 failed, 1 passed in 0.01 seconds =======================
+
+      real  0m0.111s
+      user  0m0.085s
+      sys 0m0.025s
+      </pre>
+      <pre class="prettyprint" data-lang="shell">
+      $ time(nosetests testy.py)
+  
+      ----------------------------------------------------------------------
+      Ran 2 tests in 0.001s
+
+      FAILED (failures=1)
+
+      real  0m0.204s
+      user  0m0.094s
+      sys 0m0.043s
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Podawanie ścieżki testów</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li><code>$ nosetests tests.test_accounts:AccountTestCase.test_recipes_library_other</code></li>
+        <p></p>
+        <li><code>$ py.test -v -k "AccountTestCase and test_recipes_library_other"  tests/test_accounts.py</code></li>
+        <p></p>
+        <li>Uwaga py.test używa wyrażeń regularnych do znalezienia testów, więc komenda:</li>
+        <li><code>$ py.test -v -k "AccountTestCase and test_recipes_library_other"  tests/test_accounts.py</code></li>
+        <p></p>
+        <li>uruchomi w tym wypadku testy:</li>
+        <li><code>test_recipes_library_other</code> i <code>test_recipes_library_other_with_private</code></li>
+      </ul>
+    </article>
+  </slide>
+
+  <!-- <slide hidden>
+    Hidden slides are left out of the presentation.
+  </slide> -->
+
+  <slide>
+    <hgroup>
+      <h2>Wyświetlanie błędnego wyniku - py.test</h2>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="python">
+def test_fail():
+    assert 1 != 1</pre>
+      <pre class="prettyprint" data-lang="shell">
+$ py.test testy.py
+=============================== test session starts ================================
+platform linux2 -- Python 2.7.4 -- pytest-2.5.1
+plugins: cov, xdist
+collected 2 items 
+
+testy.py .F
+
+===================================== FAILURES =====================================
+____________________________________ test_fail _____________________________________
+
+    def test_fail():
+>       assert 1 != 1
+E       assert 1 != 1
+
+testy.py:6: AssertionError
+======================== 1 failed, 1 passed in 0.01 seconds ========================
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Wyświetlanie błędnego wyniku - nosetests</h2>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="python">
+def test_ok():
+    assert 1 == 1</pre>
+      <pre class="prettyprint" data-lang="shell">
+$ time(nosetests testy.py )
+.F
+======================================================================
+FAIL: testy.test_fail
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/.../site-packages/nose/case.py", line 197, in runTest
+    self.test(*self.arg)
+  File "/home/.../testy.py", line 6, in test_fail
+    assert 1 != 1
+AssertionError
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=1)
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Parametryzacja testów</h2>
+    </hgroup>
+    <article>
+      <div class="columns-1">
+      <p>py.test ma bardzo ciekawą funkcjonalność, pozwalająca parametryzować fixtury testów jak i same testy.
+Pozwala to użyć tych samych funkcji testowych dla różnych danych. Jest to przydatne w przypadku testowania np. kilku baz danych lub ustawiania namespace.
+      </p>
+      <pre class="prettyprint" data-lang="python">
+# content of test_expectation.py
+import pytest
+@pytest.mark.parametrize("input,expected", [
+    ("3+5", 8),
+    ("2+4", 6),
+    ("6*9", 42),
+])
+def test_eval(input, expected):
+    assert eval(input) == expected
+      </pre>
+      <p>Za parametryzacje odpowiada dekorator @pytest.mark.parametrize</p>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Parametryzacja testów</h2>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="shell">
+      $ py.test
+      =========================== test session starts ============================
+      platform linux2 -- Python 2.7.3 -- pytest-2.5.1
+      collected 3 items
+
+      test_expectation.py ..F
+      
+      ================================= FAILURES =================================
+      ____________________________ test_eval[6*9-42] _____________________________
+
+      input = '6*9', expected = 42
+
+          @pytest.mark.parametrize("input,expected", [
+              ("3+5", 8),
+              ("2+4", 6),
+              ("6*9", 42),
+          ])
+          def test_eval(input, expected):
+      >       assert eval(input) == expected
+      E       assert 54 == 42
+      E        +  where 54 = eval('6*9')
+
+      test_expectation.py:8: AssertionError
+      ==================== 1 failed, 2 passed in 0.01 seconds ====================</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Parametryzacja testów</h2>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="shell">
+      ================================= FAILURES =================================
+      ____________________________ test_eval[6*9-42] _____________________________
+
+      input = '6*9', expected = 42
+
+          @pytest.mark.parametrize("input,expected", [
+              ("3+5", 8),
+              ("2+4", 6),
+              ("6*9", 42),
+          ])
+          def test_eval(input, expected):
+      >       assert eval(input) == expected
+      E       assert 54 == 42
+      E        +  where 54 = eval('6*9')
+
+      test_expectation.py:8: AssertionError
+      ==================== 1 failed, 2 passed in 0.01 seconds ====================
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Dostosowywanie z linii poleceń</h2>
+    </hgroup>
+    <article class="smaller">
+    <p>Pozwala na generowanie testów dla profilów określonych wcześniej parametrem z konsoli. Dla testu:</p>
+      <pre class="prettyprint" data-lang="python">
+# content of test_strings.py
+
+def test_valid_string(stringinput):
+    assert stringinput.isalpha()
+      </pre>
+    <p>przygotować należy specjalne parametry definiujące przekazywane argumenty.</p>
+      <pre class="prettyprint" data-lang="python">
+# content of conftest.py
+
+def pytest_addoption(parser):
+    parser.addoption("--stringinput", action="append", default=[],
+        help="list of stringinputs to pass to test functions")
+
+def pytest_generate_tests(metafunc):
+    if 'stringinput' in metafunc.fixturenames:
+        metafunc.parametrize("stringinput", metafunc.config.option.stringinput)
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Dostosowywanie z linii poleceń</h2>
+    </hgroup>
+    <article class="smaller">
+    <p>Rezultat testów poprawny</p>
+      <pre class="prettyprint" data-lang="shell">
+$ py.test -q --stringinput="hello" --stringinput="world" test_strings.py
+..
+2 passed in 0.01 seconds
+      </pre>
+    <p>i negatywny</p>
+      <pre class="prettyprint" data-lang="shell">
+$ py.test -q --stringinput="!" test_strings.py
+F
+================================= FAILURES =================================
+___________________________ test_valid_string[!] ___________________________
+
+stringinput = '!'
+
+    def test_valid_string(stringinput):
+>       assert stringinput.isalpha()
+E       assert <built-in method isalpha of str object at 0x2b72934ca198>()
+E        +  where <built-in method isalpha of str object at 0x2b72934ca198> = '!'.isalpha
+
+test_strings.py:3: AssertionError
+1 failed in 0.01 seconds</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Fixtury pyttesta</h2>
+    </hgroup>
+    <article>
+      <p>Do dyspozycji jest też różnorodny dobór możliwości stosowania fixtur importowanych jako dekoratory. Można je wykorzystywać za pomocą dekoratora:</p>
+      <ul>
+        <li>@pytest.fixture (opcjonalnie @pytest.fixture(scope="module") gdzie “module” można zamienić na “session”) - funkcja ta tworzona jest tylko raz w całym module (lub testowej sesji), testy które wywołają tak udekorowaną funkcje zawsze otrzymają ten sam obiekt. 
+        </li>
+        <li>Przydatne jest użycie tej funkcji kiedy wielokrotne użycie jest za bardzo wymagające czasowo np. potrzebne jest kilkukrotnie przetestowanie dostępu.
+        </li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>@pytest.fixture </h2>
+    </hgroup>
+    <article class="smaller">
+      <p>Tworzymy funkcje, która ma się wykonywać tylko raz i ją dekorujemy @pytest.fixture.</p>
+      <pre class="prettyprint" data-lang="python">
+# content of conftest.py
+import pytest
+import smtplib
+
+@pytest.fixture(scope="module")
+def smtp():
+    return smtplib.SMTP("merlinux.eu")</pre>
+      <p>Piszemy testy korzystające z funkcji smpt.</p>
+      <pre class="prettyprint" data-lang="shell">
+# content of test_module.py
+def test_ehlo(smtp):
+    response = smtp.ehlo()
+    assert response[0] == 250
+    assert "merlinux" in response[1]
+    assert 0  # for demo purposes
+
+def test_noop(smtp):
+    response = smtp.noop()
+    assert response[0] == 250
+    assert 0  # for demo purposes</pre>
+
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>@pytest.fixture </h2>
+    </hgroup>
+    <article class="smaller">
+      <p>Jak widać poniżej smtp ma ten sam adres w pamięci w obydwu testach.</p>
+      <pre class="prettyprint" data-lang="shell">
+________________________________ test_ehlo _________________________________
+smtp = < smtplib.SMTP instance at 0x1af5440>
+
+    def test_ehlo(smtp):
+        response = smtp.ehlo()
+        assert response[0] == 250
+        assert "merlinux" in response[1]
+>       assert 0  # for demo purposes
+E       assert 0
+
+test_module.py:6: AssertionError
+________________________________ test_noop _________________________________
+smtp = < smtplib.SMTP instance at 0x1af5440>
+
+    def test_noop(smtp):
+        response = smtp.noop()
+        assert response[0] == 250
+>       assert 0  # for demo purposes
+E       assert 0
+
+test_module.py:11: AssertionError
+========================= 2 failed in 0.17 seconds =========================</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>@pytest.yield_fixture</h2>
+    </hgroup>
+    <article class="smaller">
+      <p>Możliwe jest też korzystanie z instrukcji yield w testach.</p>
+      <pre class="prettyprint" data-lang="python">
+# content of test_yield.py
+
+import pytest
+
+@pytest.yield_fixture
+def passwd():
+    print ("\nsetup before yield")
+    f = open("/etc/passwd")
+    yield f.readlines()
+    print ("teardown after yield")
+    f.close()
+
+def test_has_lines(passwd):
+    print ("test called")
+    assert passwd</pre>
+      <p>Bez dekoratora @pytest.yield_fixture funkcja się nie wykona.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>@pytest.yield_fixture</h2>
+    </hgroup>
+    <article class="smaller">
+      <p>lub dodatkowo za pomocą “with”</p>
+      <pre class="prettyprint" data-lang="python">
+# content of test_yield2.py
+
+import pytest
+
+@pytest.yield_fixture
+def passwd():
+    with open("/etc/passwd") as f:
+        yield f.readlines()
+
+def test_has_lines(passwd):
+    assert len(passwd) >= 1</pre>
+      <pre class="prettyprint" data-lang="shell">
+$ py.test -q -s test_yield.py
+
+setup before yield
+test called
+.teardown after yield
+
+1 passed in 0.00 seconds</pre>
+      <p>Testy w tym wypadku, oznaczone dekoratorem @pytest.yield_fixture przyjmują jako argument funkcję.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Wykrywanie testów</h2>
+    </hgroup>
+    <article>
+      <p>Nose</p>
+      <ul>
+        <li>Używa wyrażeń regularnych do określania testu</li>
+      </ul>
+      <p>py.tests</p>
+      <ul>
+        <li>Posiada osobny plik konfiguracyjny określając co jest klasą,  a co funkcją.</li>
+        <li>Bazuje na zmiennych globalnych w pliku (Dlatego należy uważać na nazwy zmiennych globalnych w testach).</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Przykład konfliktu w py.test</h2>
+    </hgroup>
+    <article>
+      <p>Globalnie definiowanie</p>
+      <pre class="prettyprint" data-lang="python">
+test_app = webapp2.WSGIApplication(
+    [('/test/', Handler)],
+    debug=True,
+    config=DEFAULT_CONFIG
+)</pre>
+<p>Po wypisaniu zmiennych globalnych globals(), zmienna</p>
+<pre class="prettyprint" data-lang="globals">
+'test_app': < webapp2.WSGIApplication object at 0x42bebd0></pre>
+<p>była  wykorzystywana globalnie i co najważniejsze miała w nazwie “test_”, co powodowało przerwanie wykonywanych testów bez jakiejkolwiek informacji.</p>
+<p>Na nosetests-cie konflikt nie występował, test musiał być funkcją lub metodą.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Przykład konfliktu w py.test</h2>
+    </hgroup>
+    <article>
+      <p>Poprawna wersja</p>
+      <pre class="prettyprint" data-lang="python">
+class JsonPBTest(KITest):
+    APPLICATION = webapp2.WSGIApplication(
+        [('/test/', Handler)],
+        debug=True,
+        config=DEFAULT_CONFIG
+    )</pre>
+      <pre class="prettyprint" data-lang="Pdb">
+(Pdb) APPLICATION
+< webapp2.WSGIApplication object at 0x5274fd0></pre>
+<p>w zmiennych globalnych jest tylko klasa</p>
+      <pre class="prettyprint" data-lang="globals">
+'JsonPBTest': < class='tests.test_api.JsonPBTest'></pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Sprawdzone pluginy py.test - pytest-xdist</h2>
+    </hgroup>
+    <article>
+      <p>Pozwala na uruchamianie w osobnych procesach: </p>
+      <pre class="prettyprint" data-lang="shell">
+py.test -n NUM</pre>
+      <p>Zalecana ilość procesów dla NUM: NUM = Ilość rdzeni procesora - 1</p>
+      <p>oraz izolacje procesów testów, (używana pamięć jest zwalniana po każdym teście) zapobiegająca unicestwieniu przez system: </p>
+      <pre class="prettyprint" data-lang="shell">
+py.test -n NUM --boxed</pre>
+      <p>W ‘nose’ nie istnieje możliwość zwalniania pamięci tylko ustawienia timeouta na czas wykonywania testu, co powoduje gromadzenie pamięci w testach i usuwanie tych długo wykonywanych co nie jest właściwe.</p>
+      <p>Obie opcje można łączyć. Rozsądne użycie sprawia, że testy trwające około 66 procent krócej np. z 15 do 5 minut.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Kolejny feature xdist</h2>
+    </hgroup>
+    <article>
+      <p>Pozwala na śledzenie zmian w testach. Jeśli mamy błąd w assercji, możemy na bieżąco podglądać wynik, gdy plik ulegnie zmianie. </p>
+      <pre class="prettyprint" data-lang="shell">
+py.test --looponfail</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Dodatkowe popularne opcje nosetest vs py.test</h2>
+    </hgroup>
+    <article>
+        <ul>
+          <li>Dokładniejszy opis:</li>
+          <li><pre class="prettyprint">
+--verbosity=2 -v</pre></li>
+          <li>Najwolniejsze testy</li>
+          <li><pre class="prettyprint">
+--with-openstack --durations=10</pre></li>
+          <li>Pokrycie</li>
+          <li><pre class="prettyprint">
+--with-cov --cov</pre></li>
+          <li>Format xml</li>
+          <li><pre class="prettyprint">
+--with-xunit --junitxml</pre></li>
+        </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>W skrócie - Nosetests</h2>
+    </hgroup>
+    <article>
+      <pre data-lang="plusy">
+Duża ilość pluginów</pre>
+      <pre data-lang="minusy">
+Spora część z pluginów nie działa
+Tylko python 2.x.
+Brak dalszego rozwoju</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>W skrócie - Nosetests</h2>
+    </hgroup>
+    <article>
+      <pre data-lang="plusy">
+Duża społeczność wokół projektu
+Eleganckie i idiomatyczne podejście np .pokazywanie wyniku assercji
+Wspiera Python 2.5-3.3
+Lepsza dokumentacja
+Więcej możliwości dostosowania bez pluginów py.tests --help</pre>
+      <pre data-lang="minusy">
+Brak??</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Dalsze informacje</h2>
+    </hgroup>
+    <article>
+<li><p>Porównanie nose i py.testa na stronie Fedory (podobieństwa i różnice) - http://fedoraproject.org/wiki/User:Tflink/AutoQA_nose_pytest_comparison</p></li>
+<li><p>Pełna dokumentacja py.testa (prawie 200 stron) - http://pytest.org/latest/pytest.pdf</p></li>
+<li><p>Zbiór dostępnych narzędzi testowych pythona, niestety mało aktualny - https://wiki.python.org/moin/PythonTestingToolsTaxonomy</p></li>
+<li><p>Aktywny kanał dla użytkowników #pylib na irc.freenode.net IRC</p></li>
+
+    </article>
+  </slide>
+
+  <slide class="thank-you-slide segue nobackground">
+    <aside class="gdbar right"><img src="images/google_developers_icon_128.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Dziękuję wam!&gt;</h2>
+      <!-- <p>Important contact information goes here.</p> -->
+      <!-- <p>Informacje kontaktowe</p> -->
+    </article>
+    <!-- <p class="auto-fadein" data-config-contact> -->
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="logoslide dark nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/google_developers_logo.png"></span>
+    </article>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
