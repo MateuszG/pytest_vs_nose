@@ -293,6 +293,23 @@ test_strings.py:3: AssertionError
 
   <slide>
     <hgroup>
+      <h2>Obiekt metafunc</h2>
+    </hgroup>
+    <article>
+    <p>Jest dostepny w API i pozwala na użycie funkcji 'pytest_generate_tests', która daje możliwość konfiguracji uruchamianych testów.</p>
+      <ul>
+        <li><code>metafunc.fixturenames: zestaw wymaganych argumentów funkcji dla danej funkcji</code></li>
+        <li><code>metafunc.function: podstawowa funkcja testu python</code></li>
+        <li><code>metafunc.cls: obiekt klasy, w których funkcja jest zdefiniowana lub jest None.</code></li>
+        <li><code>metafunc.module: Moduł gdzie obiekt testowy jest zdefiniowana funkcja w.</code></li>
+        <li><code>metafunc.config: Dostęp do linii poleceń i ogólnej konfiguracji</code></li>
+        <li><code>metafunc.funcargnames: alias dla fixturenames</code></li>
+      </ul>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
       <h2>Testowe scenariusze</h2>
     </hgroup>
     <article>
@@ -342,7 +359,7 @@ test_parametrize3.py:14: TestSampleWithScenarios.test_demo[advanced] PASS
     <article>
       <p>Do dyspozycji jest też różnorodny dobór możliwości stosowania fixtur importowanych jako dekoratory. Można je wykorzystywać za pomocą dekoratora:</p>
       <ul>
-        <li>@pytest.fixture (opcjonalnie @pytest.fixture(scope="module") gdzie “module” można zamienić na “session”) - funkcja ta tworzona jest tylko raz w całym module (lub testowej sesji), testy które wywołają tak udekorowaną funkcje zawsze otrzymają ten sam obiekt. 
+        <li>@pytest.fixture (opcjonalnie @pytest.fixture(scope="module") gdzie “module” można zamienić na np. “session”, "class") - funkcja ta tworzona jest tylko raz w całym module (lub testowej sesji), testy które wywołają tak udekorowaną funkcje zawsze otrzymają ten sam obiekt. 
         </li>
         <li>Przydatne jest użycie tej funkcji kiedy wielokrotne użycie jest za bardzo wymagające czasowo np. potrzebne jest kilkukrotnie przetestowanie dostępu.
         </li>
