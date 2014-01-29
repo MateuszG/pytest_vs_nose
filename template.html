@@ -48,7 +48,7 @@ URL: https://code.google.com/p/io-2012-slides
     </hgroup>
     <article>
       <ul>
-        <li><b>nose</b> - jest rozszerzeniem możliwości z unittesta(dawny PyUnit), PyTest i DocTesta, który zapewnia przede wszsytkim łatwość dodawania pluginów porpzez dobrze udokumentowane API.</li>
+        <li><b>nose</b> - jest rozszerzeniem możliwości z unittesta(dawny PyUnit), PyTest i DocTesta, który zapewnia przede wszystkim łatwość dodawania pluginów, a to dzięki dobrze udokumentowanym API.</li>
         <li><b>py.test</b> - to w pełnym znaczeniu freamwork testowy, oferujący wiele opcji min. sprawdzanie PEP8, Junit, obsługuje unittesta.
           <ul>
             <b>py.test</b> to najbardziej zaawansowany projekt i co ważne nadal rozwijany, który zawiera większość funkcji z innych narzędzi testowych.
@@ -422,6 +422,36 @@ test called
 
   <slide>
     <hgroup>
+      <h2>@pytest.yield_fixture</h2>
+    </hgroup>
+    <article class="smaller">
+      <p>lub dodatkowo za pomocą “with”</p>
+      <pre class="prettyprint" data-lang="python">
+# content of test_yield2.py
+
+import pytest
+
+@pytest.yield_fixture
+def passwd():
+    with open("/etc/passwd") as f:
+        yield f.readlines()
+
+def test_has_lines(passwd):
+    assert len(passwd) >= 1</pre>
+      <pre class="prettyprint" data-lang="shell">
+$ py.test -q -s test_yield.py
+
+setup before yield
+test called
+.teardown after yield
+
+1 passed in 0.00 seconds</pre>
+      <p>Testy w tym wypadku, oznaczone dekoratorem @pytest.yield_fixture przyjmują jako argument funkcję.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>Wykrywanie testów</h2>
     </hgroup>
     <article>
@@ -555,7 +585,7 @@ Wspiera Python 2.5-3.3
 Lepsza dokumentacja
 Więcej możliwości dostosowania bez pluginów py.tests --help</pre>
       <pre data-lang="minusy">
-Brak??</pre>
+py.testowe dodatki wymagają ingerowania w kod</pre>
     </article>
   </slide>
 
@@ -564,8 +594,8 @@ Brak??</pre>
       <h2>Dalsze informacje</h2>
     </hgroup>
     <article>
+<li><p><b>Pełna dokumentacja py.testa (prawie 200 stron)</b> - http://pytest.org/latest/pytest.pdf</p></li>
 <li><p>Porównanie nose i py.testa na stronie Fedory (podobieństwa i różnice) - http://fedoraproject.org/wiki/User:Tflink/AutoQA_nose_pytest_comparison</p></li>
-<li><p>Pełna dokumentacja py.testa (prawie 200 stron) - http://pytest.org/latest/pytest.pdf</p></li>
 <li><p>Zbiór dostępnych narzędzi testowych pythona, niestety mało aktualny - https://wiki.python.org/moin/PythonTestingToolsTaxonomy</p></li>
 <li><p>Aktywny kanał dla użytkowników #pylib na irc.freenode.net IRC</p></li>
 
