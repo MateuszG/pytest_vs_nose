@@ -49,7 +49,7 @@ URL: https://code.google.com/p/io-2012-slides
     <article>
       <ul>
         <li><b>nose</b> - jest rozszerzeniem możliwości z unittesta(dawny PyUnit), PyTest i DocTesta, który zapewnia przede wszystkim łatwość dodawania pluginów, a to dzięki dobrze udokumentowanym API.</li>
-        <li><b>py.test</b> - to w pełnym znaczeniu freamwork testowy, oferujący wiele opcji min. sprawdzanie PEP8, Junit, obsługuje unittesta.
+        <li><b>py.test</b> - to w pełnym znaczeniu freamwork testowy, oferujący wiele opcji min. sprawdzanie PEP8, Junit, obsługuje unittesta, nosetesta.
         Co go wyróżnia?
           <ul>
             Najbardziej zaawansowany projekt i co ważne nadal rozwijany, który zawiera większość funkcji z innych narzędzi testowych.
@@ -288,6 +288,50 @@ E        +  where <built-in method isalpha of str object at 0x2b72934ca198> = '!
 
 test_strings.py:3: AssertionError
 1 failed in 0.01 seconds</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Testowe scenariusze</h2>
+    </hgroup>
+    <article>
+      <p>Zamiast używania instrukcji 'yield' w testach, twórcy proponują inny sposób tworzenia scenariuszu testowego.</p>
+      <pre class="prettyprint" data-lang="python">
+# test_parametrize3.py
+ 
+def pytest_generate_tests(metafunc):
+    for scenario in metafunc.cls.scenarios:
+        metafunc.addcall(id=scenario[0], funcargs=scenario[1])
+ 
+scenario1 = ('basic', {'attribute': 'value'})
+scenario2 = ('advanced', {'attribute': 'value2'})
+ 
+class TestSampleWithScenarios:
+    scenarios = [scenario1, scenario2]
+ 
+    def test_demo(self, attribute):
+        assert isinstance(attribute, str)</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Testowe scenariusze</h2>
+
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="shell">
+$ py.test -v test_parametrize3.py
+ 
+================================ test session starts ================================
+python: platform linux2 -- Python 2.6.2 -- /usr/bin/python
+test object 1: test_parametrize3.py
+ 
+test_parametrize3.py:14: TestSampleWithScenarios.test_demo[basic] PASS
+test_parametrize3.py:14: TestSampleWithScenarios.test_demo[advanced] PASS
+ 
+============================= 2 passed in 0.06 seconds ==============================</pre>
     </article>
   </slide>
 
@@ -619,7 +663,7 @@ Duża społeczność wokół projektu
 Eleganckie i idiomatyczne podejście np. pokazywanie wyniku assercji (porównania różnic)
 Wspiera Python 2.5-3.3
 Lepsza dokumentacja
-Więcej możliwości dostosowania bez pluginów py.tests --help</pre>
+Więcej możliwości konfiguracji bez sięgania do pluginów (py.tests --help)</pre>
       <pre data-lang="minusy">
 py.testowe dodatki wymagają ingerowania w kod</pre>
     </article>
@@ -634,7 +678,8 @@ py.testowe dodatki wymagają ingerowania w kod</pre>
 <li><p>Porównanie nose i py.testa na stronie Fedory (podobieństwa i różnice) - http://fedoraproject.org/wiki/User:Tflink/AutoQA_nose_pytest_comparison</p></li>
 <li><p>Zbiór dostępnych narzędzi testowych pythona, niestety mało aktualny - https://wiki.python.org/moin/PythonTestingToolsTaxonomy</p></li>
 <li><p>Aktywny kanał dla użytkowników #pylib na irc.freenode.net IRC</p></li>
-
+<li><p>Prezentacja na PyConie 2012 na temat py.testa </p>
+<p><a herf=http://www.youtube.com/watch?v=9LVqBQcFmyw>http://www.youtube.com/watch?v=9LVqBQcFmyw</a></p></li>
     </article>
   </slide>
 
