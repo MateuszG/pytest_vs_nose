@@ -234,14 +234,14 @@ def test_eval(input, expected):
       <h2>Dostosowywanie z linii poleceń</h2>
     </hgroup>
     <article class="smaller">
-    <p>Pozwala na generowanie testów dla profilów określonych wcześniej parametrem z konsoli. Dla testu:</p>
+    <p>Pozwala na generowanie testów dla profilów, określonych wcześniej parametrem z konsoli.</p>
       <pre class="prettyprint" data-lang="python">
 # content of test_strings.py
 
 def test_valid_string(stringinput):
     assert stringinput.isalpha()
       </pre>
-    <p>przygotować należy specjalne parametry definiujące przekazywane argumenty.</p>
+    <p>Dla powyższego testu, należy przygotować parser definiujący możliwe opcje.</p>
       <pre class="prettyprint" data-lang="python">
 # content of conftest.py
 
@@ -334,10 +334,10 @@ def test_noop(smtp):
 
   <slide>
     <hgroup>
-      <h2>@pytest.fixture </h2>
+      <h2>@pytest.fixture</h2>
     </hgroup>
     <article class="smaller">
-      <p>Jak widać poniżej smtp ma ten sam adres w pamięci w obydwu testach.</p>
+      <p>Jak widać poniżej smtp ma ten sam adres w pamięci w obydwu testach (działa też dla metod testowych)</p>
       <pre class="prettyprint" data-lang="shell">
 ________________________________ test_ehlo _________________________________
 smtp = < smtplib.SMTP instance at 0x1af5440>
@@ -387,36 +387,6 @@ def test_has_lines(passwd):
     print ("test called")
     assert passwd</pre>
       <p>Bez dekoratora @pytest.yield_fixture funkcja się nie wykona.</p>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>@pytest.yield_fixture</h2>
-    </hgroup>
-    <article class="smaller">
-      <p>lub dodatkowo za pomocą “with”</p>
-      <pre class="prettyprint" data-lang="python">
-# content of test_yield2.py
-
-import pytest
-
-@pytest.yield_fixture
-def passwd():
-    with open("/etc/passwd") as f:
-        yield f.readlines()
-
-def test_has_lines(passwd):
-    assert len(passwd) >= 1</pre>
-      <pre class="prettyprint" data-lang="shell">
-$ py.test -q -s test_yield.py
-
-setup before yield
-test called
-.teardown after yield
-
-1 passed in 0.00 seconds</pre>
-      <p>Testy w tym wypadku, oznaczone dekoratorem @pytest.yield_fixture przyjmują jako argument funkcję.</p>
     </article>
   </slide>
 
