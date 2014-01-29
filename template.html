@@ -463,6 +463,26 @@ setting up < function test_func2 at 0x1eb37d0>
 
   <slide>
     <hgroup>
+      <h2>Przechwycenie outputu testowej funkcji</h2>
+    </hgroup>
+    <article>
+      <p>W argumentach testowej funkcji wymagany jest 'capsys'.</p>
+      <pre class="prettyprint" data-lang="python">
+def test_myoutput(capsys):
+    import pdb; pdb.set_trace()
+    print ("hello")
+    sys.stderr.write("world\n")
+    out, err = capsys.readouterr()
+    assert out == "hello\n"
+    assert err == "world\n"
+    print "next"
+    out, err = capsys.readouterr()
+    assert out == "next\n"</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>Wykrywanie testów</h2>
     </hgroup>
     <article>
