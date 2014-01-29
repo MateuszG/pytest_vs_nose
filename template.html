@@ -303,7 +303,7 @@ test_strings.py:3: AssertionError
 
   <slide>
     <hgroup>
-      <h2>@pytest.fixture </h2>
+      <h2>@pytest.fixture</h2>
     </hgroup>
     <article class="smaller">
       <p>Tworzymy funkcje, która ma się wykonywać tylko raz i ją dekorujemy @pytest.fixture.</p>
@@ -337,7 +337,7 @@ def test_noop(smtp):
       <h2>@pytest.fixture</h2>
     </hgroup>
     <article class="smaller">
-      <p>Jak widać poniżej smtp ma ten sam adres w pamięci w obydwu testach (działa też dla metod testowych)</p>
+      <p>Jak widać poniżej smtp ma ten sam adres w pamięci w obydwu testach.</p>
       <pre class="prettyprint" data-lang="shell">
 ________________________________ test_ehlo _________________________________
 smtp = < smtplib.SMTP instance at 0x1af5440>
@@ -417,6 +417,47 @@ test called
 
 1 passed in 0.00 seconds</pre>
       <p>Testy w tym wypadku, oznaczone dekoratorem @pytest.yield_fixture przyjmują jako argument funkcję.</p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Używanie instrukcji print do debagowania testu</h2>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="python">
+def setup_function(function):
+    print ("setting up %s" % function)
+def test_func1():
+    assert True
+def test_func2():
+    assert False</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Używanie instrukcji print do debagowania testu</h2>
+    </hgroup>
+    <article>
+      <p>py.test wyświetla printy w testach, gdy test się nie powiedzie.</p>
+      <pre class="prettyprint" data-lang="shell">
+$ py.test
+=========================== test session starts ============================
+platform linux2 -- Python 2.7.3 -- pytest-2.5.1
+collected 2 items
+test_module.py .F
+================================= FAILURES =================================
+________________________________ test_func2 ________________________________
+>
+E
+def test_func2():
+assert False
+assert False
+test_module.py:9: AssertionError
+----------------------------- Captured stdout ------------------------------
+setting up < function test_func2 at 0x1eb37d0>
+==================== 1 failed, 1 passed in 0.01 seconds ====================</pre>
     </article>
   </slide>
 
