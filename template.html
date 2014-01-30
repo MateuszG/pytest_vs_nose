@@ -293,6 +293,26 @@ test_strings.py:3: AssertionError
 
   <slide>
     <hgroup>
+      <h2>Setup i teardown dla całego modułu</h2>
+    </hgroup>
+    <article>
+      <div class="columns-1">
+      <p>Dla pojedyńczego modułu, który zawiela wiele klasy lub testów mozna wywołać setup i teardown.
+      </p>
+      <pre class="prettyprint" data-lang="python">
+def setup_module(module):
+""" setup any state specific to the execution of the given module."""
+
+def teardown_module(module):
+""" teardown any state that was previously setup with a setup_module
+method.
+"""</pre>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>Obiekt metafunc</h2>
     </hgroup>
     <article>
