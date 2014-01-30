@@ -328,13 +328,13 @@ method.
       </ul>
     </article>
   </slide>
-  
+
   <slide>
     <hgroup>
       <h2>Testowe scenariusze</h2>
     </hgroup>
     <article>
-      <p>Zamiast używania instrukcji 'yield' w testach, twórcy proponują inny sposób tworzenia scenariuszu testowego.</p>
+      <p>Zamiast używania instrukcji 'yield' w testach, twórcy proponują inny sposób tworzenia przejrzystego scenariuszu testowego.</p>
       <pre class="prettyprint" data-lang="python">
 # test_parametrize3.py
  
@@ -448,6 +448,38 @@ E       assert 0
 
 test_module.py:11: AssertionError
 ========================= 2 failed in 0.17 seconds =========================</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>@pytest.fixture i @pytest.mark.usefixtures</h2>
+    </hgroup>
+    <article class="smaller">
+<p>Przykład jak wykorzystać fixtury do operacji na plikach.</p>
+      <pre class="prettyprint" data-lang="python">
+# conftest.py
+import pytest; import tempfile; import os
+
+@pytest.fixture()
+def cleandir():
+  newpath = tempfile.mkdtemp() # '/tmp/tmpKUnnz2'
+  os.chdir(newpath)</pre>
+
+      <pre class="prettyprint" data-lang="python">
+# test_setenv.py
+import os; import pytest
+
+@pytest.mark.usefixtures("cleandir")
+class TestDirectoryInit:
+    def test_cwd_starts_empty(self):
+        assert os.listdir(os.getcwd()) == []
+        with open("myfile", "w") as f:
+            f.write("hello")
+        assert os.listdir(os.getcwd()) == ['myfile']
+
+    def test_cwd_again_starts_empty(self):
+        assert os.listdir(os.getcwd()) == []</pre>
     </article>
   </slide>
 
@@ -649,9 +681,28 @@ py.test -n NUM --boxed</pre>
       <h2>Kolejny feature xdist</h2>
     </hgroup>
     <article>
-      <p>Pozwala na śledzenie zmian w testach. Jeśli mamy błąd w assercji, możemy na bieżąco podglądać wynik, gdy plik ulegnie zmianie. </p>
+      <p>Pozwala na ponowne uruchamianie całego. Jeśli mamy błąd w assercji, możemy na bieżąco podglądać wynik, gdy plik ulegnie zmianie. </p>
       <pre class="prettyprint" data-lang="shell">
 py.test --looponfail</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Kilka innych pluginów do pytesta</h2>
+    </hgroup>
+    <article>
+        <ul>
+          <li>Umożliwia uruchamianie tylko failujących testów z całej serii</li>
+          <li><pre class="prettyprint">
+pytest-cache</pre></li>
+          <li>Testowanie popularnych freameworków ze wszystkim możliwościami py.test'a</li>
+          <li><pre class="prettyprint">
+pytest-django, pytest_pyramid</pre></li>
+          <li>Generowanie losowej zawartości do testów</li>
+          <li><pre class="prettyprint">
+pytest-quickcheck</pre></li>
+        </ul>
     </article>
   </slide>
 
