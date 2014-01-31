@@ -632,7 +632,7 @@ test_app = webapp2.WSGIApplication(
 <p>Po wypisaniu zmiennych globalnych globals(), zmienna</p>
 <pre class="prettyprint" data-lang="globals">
 'test_app': < webapp2.WSGIApplication object at 0x42bebd0></pre>
-<p>była  wykorzystywana globalnie i co najważniejsze miała w nazwie “test_”, co powodowało przerwanie wykonywanych testów bez jakiejkolwiek informacji.</p>
+<p>była obiektem wykorzystywanym globalnie i miała w nazwie “test_”, co powodowało przerwanie wykonywanych testów bez jakiejkolwiek informacji.</p>
 <p>Na nosetests-cie konflikt nie występował, test musiał być funkcją lub metodą.</p>
     </article>
   </slide>
