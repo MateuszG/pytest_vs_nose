@@ -706,6 +706,92 @@ pytest-quickcheck</pre></li>
     </article>
   </slide>
 
+
+  <slide>
+    <hgroup>
+      <h2>py.testa w buildout-cie</h2>
+    </hgroup>
+    <article>
+      <p>Dodanie samego plugina nie jest problemem. Dodajemy nowy wpis.</p>
+      <pre class="prettyprint" data-lang="buildout.cfg">
+[buildout]
+parts =
+    ...
+    pytests
+    ...
+    </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>py.testa w buildout-cie</h2>
+    </hgroup>
+    <article>
+      <p>Dodanie definicje sekcji 'pytests' do tego samego pliku.</p>
+      <pre class="prettyprint" data-lang="buildout.cfg">
+[pytests]
+recipe = zc.recipe.egg:script
+extra-paths =
+    ${gae_tools:sdk-directory}
+scripts =
+    py.test
+eggs =
+    ${config:requirements}
+    nose
+    pytest-cov
+    pytest</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>py.testa w buildout-cie + pytest-xdist</h2>
+    </hgroup>
+    <article class="smaller">
+      <p>Dodatkowo wymagane jest tu obsłużenie błędu</p>
+      <pre class="prettyprint" data-lang="buildout.cfg">
+[pytests]
+recipe = zc.recipe.egg:script
+extra-paths =
+    ${gae_tools:sdk-directory}
+scripts =
+    py.test
+eggs =
+    ${config:requirements}
+    nose
+    setuptools
+    pytest-xdist
+    pytest-cov
+    pytest
+interpreter = py
+initialization =
+    try:
+        sys.argv.remove('-u')
+    except ValueError:
+        pass
+    import sys, os
+    unbuffered = os.fdopen(sys.stdout.fileno(), 'w', 0)
+    sys.stdout = unbuffered</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>py.testa w buildout-cie</h2>
+    </hgroup>
+    <article>
+      <p>Aby uruchomić testy potrzebujemy tylko komendy</p>
+      <pre class="prettyprint" data-lang="bash">
+./bin/py.test tests/ </pre>
+      <p>lub z dodanym parametrem, aby skorzystać z kilku procesorów.</p>
+      <pre class="prettyprint" data-lang="bash">
+./bin/py.test tests/ --tx='3*popen//python=bin/py' --dist=load</pre>
+    </article>
+  </slide>
+
+<!-- KONIEC -->
+
   <slide>
     <hgroup>
       <h2>Dodatkowe popularne opcje nosetest vs py.test</h2>
