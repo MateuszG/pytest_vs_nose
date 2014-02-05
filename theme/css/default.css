@@ -550,7 +550,7 @@ pre[data-lang]:after {
   position: absolute;
   font-size: 16pt;
   color: white;
-  padding: 2px 25px;
+  padding: 2px 8px;
   text-transform: uppercase;
 }
 
