@@ -239,6 +239,45 @@ def test_eval(input, expected):
 
   <slide>
     <hgroup>
+      <h2>Setup i teardown dla całego modułu</h2>
+    </hgroup>
+    <article>
+      <div class="columns-1">
+      <p>Dla pojedyńczego modułu, który zawiela wiele klasy lub testów można wywołać setup i teardown.
+      </p>
+      <pre class="prettyprint" data-lang="set_tear_down_module_7.py">
+def setup_module(module):
+""" setup any state specific to the execution of the given module."""
+
+def teardown_module(module):
+""" teardown any state that was previously setup with a setup_module
+method.
+"""</pre>
+      </div>
+    <center><img src="images/setup.gif"></img></center>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Obiekt metafunc</h2>
+    </hgroup>
+    <article>
+    <p>Jest dostepny w API pytest-a i pozwala na użycie funkcji 'pytest_generate_tests', która daje możliwość konfiguracji uruchamianych testów.</p>
+      <ul>
+        <li><code>metafunc.fixturenames: Ustawia wymagane argumenty dla funkcji.</code></li>
+        <li><code>metafunc.function: Podstawowa pythonowa testowa funkcja.</code></li>
+        <li><code>metafunc.cls: Obiekt klasy, w których funkcja jest zdefiniowana lub ma wartość None.</code></li>
+        <li><code>metafunc.module: Obiekt modułu gdzie testowa funkcja jest zdefiniowana.</code></li>
+        <li><code>metafunc.config: Dostęp do możlwiych opcji i ogólnej konfiguracji.</code></li>
+        <li><code>metafunc.funcargnames: alias dla fixturenames.</code></li>
+        <li><code>metafunc.addcall: Dodaj nowe wywołanienie do funkcji testu bazowego w fazie kolekcjonowania testów.</code></li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>Dostosowywanie z linii poleceń</h2>
     </hgroup>
     <article>
@@ -287,45 +326,6 @@ E        +  where <built-in method isalpha of str object at 0x2b72934ca198> = '!
 
 test_strings_3.py:3: AssertionError
 1 failed in 0.01 seconds</pre>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Setup i teardown dla całego modułu</h2>
-    </hgroup>
-    <article>
-      <div class="columns-1">
-      <p>Dla pojedyńczego modułu, który zawiela wiele klasy lub testów można wywołać setup i teardown.
-      </p>
-      <pre class="prettyprint" data-lang="set_tear_down_module_7.py">
-def setup_module(module):
-""" setup any state specific to the execution of the given module."""
-
-def teardown_module(module):
-""" teardown any state that was previously setup with a setup_module
-method.
-"""</pre>
-      </div>
-    <center><img src="images/setup.gif"></img></center>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Obiekt metafunc</h2>
-    </hgroup>
-    <article>
-    <p>Jest dostepny w API pytest-a i pozwala na użycie funkcji 'pytest_generate_tests', która daje możliwość konfiguracji uruchamianych testów.</p>
-      <ul>
-        <li><code>metafunc.fixturenames: Ustawia wymagane argumenty dla funkcji.</code></li>
-        <li><code>metafunc.function: Podstawowa pythonowa testowa funkcja.</code></li>
-        <li><code>metafunc.cls: Obiekt klasy, w których funkcja jest zdefiniowana lub ma wartość None.</code></li>
-        <li><code>metafunc.module: Obiekt modułu gdzie testowa funkcja jest zdefiniowana.</code></li>
-        <li><code>metafunc.config: Dostęp do możlwiych opcji i ogólnej konfiguracji.</code></li>
-        <li><code>metafunc.funcargnames: alias dla fixturenames.</code></li>
-        <li><code>metafunc.addcall: Dodaj nowe wywołanienie do funkcji testu bazowego w fazie kolekcjonowania testów.</code></li>
-      </ul>
     </article>
   </slide>
 
