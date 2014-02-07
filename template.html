@@ -71,7 +71,7 @@ URL: https://code.google.com/p/io-2012-slides
     <article class="smaller">
       <p>We wcześniejszych wersjach szybkość py.testa była gorsza. Teraz różnica między nose-m a pytestem jest nieznacząca i bardzo zależna od ilość pluginów i użytych opcji.</p>
       <pre class="prettyprint" data-lang="shell">
-      $ time(py.test testy.py)
+      $ time(py.test test_sample_1.py)
       
       ======================== 1 failed, 1 passed in 0.01 seconds =======================
 
@@ -80,7 +80,7 @@ URL: https://code.google.com/p/io-2012-slides
       sys 0m0.025s
       </pre>
       <pre class="prettyprint" data-lang="shell">
-      $ time(nosetests testy.py)
+      $ time(nosetests test_sample_1.py)
   
       ----------------------------------------------------------------------
       Ran 2 tests in 0.001s
@@ -122,11 +122,13 @@ URL: https://code.google.com/p/io-2012-slides
       <h2>Wyświetlanie błędnego wyniku - py.test</h2>
     </hgroup>
     <article class="smaller">
-      <pre class="prettyprint" data-lang="python">
+      <pre class="prettyprint" data-lang="test_sample_1.py">
+...
+
 def test_fail():
     assert 1 != 1</pre>
       <pre class="prettyprint" data-lang="shell">
-$ py.test fail.py
+$ py.test test_sample_1.py
 =============================== test session starts ================================
 platform linux2 -- Python 2.7.4 -- pytest-2.5.1
 plugins: cov, xdist
@@ -152,11 +154,13 @@ testy.py:6: AssertionError
       <h2>Wyświetlanie błędnego wyniku - nosetests</h2>
     </hgroup>
     <article class="smaller">
-      <pre class="prettyprint" data-lang="python">
+      <pre class="prettyprint" data-lang="test_sample_1.py">
+...
+
 def test_fail():
     assert 1 != 1</pre>
       <pre class="prettyprint" data-lang="shell">
-$ time(nosetests fail.py )
+$ nosetests test_sample_1.py
 .F
 ======================================================================
 FAIL: testy.test_fail
