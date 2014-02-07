@@ -243,19 +243,20 @@ def test_eval(input, expected):
     </hgroup>
     <article>
     <p>Pozwala na generowanie testów dla profilów, określonych wcześniej parametrem z konsoli.</p>
-      <pre class="prettyprint" data-lang="test_strings_3.py">
-def test_valid_string(stringinput):
-    assert stringinput.isalpha()</pre>
-  
-    <p>Dla powyższego testu, należy przygotować parser definiujący możliwe opcje.</p>
-      <pre class="prettyprint" data-lang="conftest_4.py">
+    <p>Nazwa pliku 'conftest.py' jest wymagana, aby konfiguracja testów zadziałała.</p>
+      <pre class="prettyprint" data-lang="conftest.py">
 def pytest_addoption(parser):
     parser.addoption("--stringinput", action="append", default=[],
-        help="list of stringinputs to pass to test functions")
+    help="list of stringinputs to pass to test functions")
 
 def pytest_generate_tests(metafunc):
     if 'stringinput' in metafunc.fixturenames:
         metafunc.parametrize("stringinput", metafunc.config.option.stringinput)</pre>
+  
+    <p>Dla powyższego testu, należy przygotować parser definiujący możliwe opcje.</p>
+      <pre class="prettyprint" data-lang="strings_3.py">
+def test_valid_string(stringinput):
+    assert stringinput.isalpha()</pre>
     </article>
   </slide>
 
@@ -297,7 +298,7 @@ test_strings_3.py:3: AssertionError
       <div class="columns-1">
       <p>Dla pojedyńczego modułu, który zawiela wiele klasy lub testów można wywołać setup i teardown.
       </p>
-      <pre class="prettyprint" data-lang="set_tear_down_module.py">
+      <pre class="prettyprint" data-lang="set_tear_down_module_7.py">
 def setup_module(module):
 """ setup any state specific to the execution of the given module."""
 
@@ -362,8 +363,8 @@ $ py.test -v test_scenario_generators_5.py
 python: platform linux2 -- Python 2.6.2 -- /usr/bin/python
 test object 1: test_scenario_generators_5.py
  
-test_parametrize3.py:14: TestSampleWithScenarios.test_demo[basic] PASS
-test_parametrize3.py:14: TestSampleWithScenarios.test_demo[advanced] PASS
+test_scenario_generators_5.py:14: TestSampleWithScenarios.test_demo[basic] PASS
+test_scenario_generators_5.py:14: TestSampleWithScenarios.test_demo[advanced] PASS
  
 ============================= 2 passed in 0.06 seconds ==============================</pre>
     </article>
@@ -396,15 +397,12 @@ import smtplib
 
 @pytest.fixture(scope="module")
 def smtp():
-    return smtplib.SMTP("merlinux.eu")</pre>
+    return smtplib.SMTP("ubuntu.pl")
 
-      <p>Piszemy testy korzystające z funkcji smpt.</p>
-
-      <pre class="prettyprint" data-lang="pytest.fixture_6.py">
 def test_ehlo(smtp):
     response = smtp.ehlo()
     assert response[0] == 250
-    assert "merlinux" in response[1]
+    assert "pl" in response[1]
     assert 0  # for demo purposes
 
 def test_noop(smtp):
@@ -412,6 +410,7 @@ def test_noop(smtp):
     assert response[0] == 250
     assert 0  # for demo purposes</pre>
 
+      <p>Piszemy testy korzystające z funkcji smpt.</p>
     </article>
   </slide>
 
@@ -428,11 +427,11 @@ smtp = < smtplib.SMTP instance at 0x1af5440>
     def test_ehlo(smtp):
         response = smtp.ehlo()
         assert response[0] == 250
-        assert "merlinux" in response[1]
+        assert "pl" in response[1]
 >       assert 0  # for demo purposes
 E       assert 0
 
-test_module.py:6: AssertionError
+pytest.fixture_6.py:6: AssertionError
 ________________________________ test_noop _________________________________
 smtp = < smtplib.SMTP instance at 0x1af5440>
 
@@ -442,7 +441,7 @@ smtp = < smtplib.SMTP instance at 0x1af5440>
 >       assert 0  # for demo purposes
 E       assert 0
 
-test_module.py:11: AssertionError
+pytest.fixture_6.py:11: AssertionError
 ========================= 2 failed in 0.17 seconds =========================</pre>
     </article>
   </slide>
