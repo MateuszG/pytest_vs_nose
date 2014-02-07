@@ -534,11 +534,13 @@ test called
       <h2>Używanie instrukcji print do debagowania testu</h2>
     </hgroup>
     <article>
-      <pre class="prettyprint" data-lang="python">
+      <pre class="prettyprint" data-lang="print_9.py">
 def setup_function(function):
     print ("setting up %s" % function)
+
 def test_func1():
     assert True
+
 def test_func2():
     assert False</pre>
     </article>
