@@ -189,16 +189,16 @@ FAILED (failures=1)
       <p>py.test ma bardzo ciekawą funkcjonalność, pozwalająca parametryzować fixtury testów jak i same testy.
 Pozwala to użyć tych samych funkcji testowych dla różnych danych. Jest to przydatne w przypadku testowania np. kilku baz danych lub ustawiania namespace.
       </p>
-      <pre class="prettyprint" data-lang="test_expectation.py">
+      <pre class="prettyprint" data-lang="test_expectation_2.py">
 import pytest
+
 @pytest.mark.parametrize("input,expected", [
     ("3+5", 8),
     ("2+4", 6),
     ("6*9", 42),
 ])
 def test_eval(input, expected):
-    assert eval(input) == expected
-      </pre>
+    assert eval(input) == expected</pre>
       <p>Za parametryzacje odpowiada dekorator @pytest.mark.parametrize</p>
       </div>
     </article>
@@ -210,12 +210,12 @@ def test_eval(input, expected):
     </hgroup>
     <article class="smaller">
       <pre class="prettyprint" data-lang="shell">
-      $ py.test
+      $ py.test test_expectation_2.py
       =========================== test session starts ============================
       platform linux2 -- Python 2.7.3 -- pytest-2.5.1
       collected 3 items
 
-      test_expectation.py ..F
+      test_expectation_2.py ..F
       
       ================================= FAILURES =================================
       ____________________________ test_eval[6*9-42] _____________________________
@@ -232,7 +232,7 @@ def test_eval(input, expected):
       E       assert 54 == 42
       E        +  where 54 = eval('6*9')
 
-      test_expectation.py:8: AssertionError
+      test_expectation_2.py:8: AssertionError
       ==================== 1 failed, 2 passed in 0.01 seconds ====================</pre>
     </article>
   </slide>

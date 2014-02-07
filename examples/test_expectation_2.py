@@ -1,4 +1,3 @@
-# content of test_expectation.py
 import pytest
 
 
