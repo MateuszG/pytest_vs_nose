@@ -390,15 +390,17 @@ test_parametrize3.py:14: TestSampleWithScenarios.test_demo[advanced] PASS
     </hgroup>
     <article class="smaller">
       <p>Tworzymy funkcje, która ma się wykonywać tylko raz i ją dekorujemy @pytest.fixture.</p>
-      <pre class="prettyprint" data-lang="conftest.py">
+      <pre class="prettyprint" data-lang="pytest_fixture_6.py">
 import pytest
 import smtplib
 
 @pytest.fixture(scope="module")
 def smtp():
     return smtplib.SMTP("merlinux.eu")</pre>
+
       <p>Piszemy testy korzystające z funkcji smpt.</p>
-      <pre class="prettyprint" data-lang="test_module.py">
+
+      <pre class="prettyprint" data-lang="pytest.fixture_6.py">
 def test_ehlo(smtp):
     response = smtp.ehlo()
     assert response[0] == 250
