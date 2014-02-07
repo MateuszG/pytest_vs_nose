@@ -126,7 +126,7 @@ URL: https://code.google.com/p/io-2012-slides
 def test_fail():
     assert 1 != 1</pre>
       <pre class="prettyprint" data-lang="shell">
-$ py.test testy.py
+$ py.test fail.py
 =============================== test session starts ================================
 platform linux2 -- Python 2.7.4 -- pytest-2.5.1
 plugins: cov, xdist
@@ -156,7 +156,7 @@ testy.py:6: AssertionError
 def test_fail():
     assert 1 != 1</pre>
       <pre class="prettyprint" data-lang="shell">
-$ time(nosetests testy.py )
+$ time(nosetests fail.py )
 .F
 ======================================================================
 FAIL: testy.test_fail
@@ -185,8 +185,7 @@ FAILED (failures=1)
       <p>py.test ma bardzo ciekawą funkcjonalność, pozwalająca parametryzować fixtury testów jak i same testy.
 Pozwala to użyć tych samych funkcji testowych dla różnych danych. Jest to przydatne w przypadku testowania np. kilku baz danych lub ustawiania namespace.
       </p>
-      <pre class="prettyprint" data-lang="python">
-# content of test_expectation.py
+      <pre class="prettyprint" data-lang="test_expectation.py">
 import pytest
 @pytest.mark.parametrize("input,expected", [
     ("3+5", 8),
@@ -238,26 +237,21 @@ def test_eval(input, expected):
     <hgroup>
       <h2>Dostosowywanie z linii poleceń</h2>
     </hgroup>
-    <article class="smaller">
+    <article>
     <p>Pozwala na generowanie testów dla profilów, określonych wcześniej parametrem z konsoli.</p>
-      <pre class="prettyprint" data-lang="python">
-# content of test_strings.py
-
+      <pre class="prettyprint" data-lang="test_strings.py">
 def test_valid_string(stringinput):
-    assert stringinput.isalpha()
-      </pre>
+    assert stringinput.isalpha()</pre>
+  
     <p>Dla powyższego testu, należy przygotować parser definiujący możliwe opcje.</p>
-      <pre class="prettyprint" data-lang="python">
-# content of conftest.py
-
+      <pre class="prettyprint" data-lang="conftest.py">
 def pytest_addoption(parser):
     parser.addoption("--stringinput", action="append", default=[],
         help="list of stringinputs to pass to test functions")
 
 def pytest_generate_tests(metafunc):
     if 'stringinput' in metafunc.fixturenames:
-        metafunc.parametrize("stringinput", metafunc.config.option.stringinput)
-      </pre>
+        metafunc.parametrize("stringinput", metafunc.config.option.stringinput)</pre>
     </article>
   </slide>
 
@@ -299,7 +293,7 @@ test_strings.py:3: AssertionError
       <div class="columns-1">
       <p>Dla pojedyńczego modułu, który zawiela wiele klasy lub testów mozna wywołać setup i teardown.
       </p>
-      <pre class="prettyprint" data-lang="python">
+      <pre class="prettyprint" data-lang="set_tear_down_module.py">
 def setup_module(module):
 """ setup any state specific to the execution of the given module."""
 
@@ -335,9 +329,7 @@ method.
     </hgroup>
     <article>
       <p>Zamiast używania instrukcji 'yield' w testach, twórcy proponują inny sposób tworzenia przejrzystego scenariuszu testowego.</p>
-      <pre class="prettyprint" data-lang="python">
-# test_parametrize3.py
- 
+      <pre class="prettyprint" data-lang="test_scenario_generators.py">
 def pytest_generate_tests(metafunc):
     for scenario in metafunc.cls.scenarios:
         metafunc.addcall(id=scenario[0], funcargs=scenario[1])
@@ -360,11 +352,11 @@ class TestSampleWithScenarios:
     </hgroup>
     <article>
       <pre class="prettyprint" data-lang="shell">
-$ py.test -v test_parametrize3.py
+$ py.test -v test_scenario_generators.py
  
 ================================ test session starts ================================
 python: platform linux2 -- Python 2.6.2 -- /usr/bin/python
-test object 1: test_parametrize3.py
+test object 1: test_scenario_generators.py
  
 test_parametrize3.py:14: TestSampleWithScenarios.test_demo[basic] PASS
 test_parametrize3.py:14: TestSampleWithScenarios.test_demo[advanced] PASS
@@ -394,8 +386,7 @@ test_parametrize3.py:14: TestSampleWithScenarios.test_demo[advanced] PASS
     </hgroup>
     <article class="smaller">
       <p>Tworzymy funkcje, która ma się wykonywać tylko raz i ją dekorujemy @pytest.fixture.</p>
-      <pre class="prettyprint" data-lang="python">
-# content of conftest.py
+      <pre class="prettyprint" data-lang="conftest.py">
 import pytest
 import smtplib
 
@@ -403,8 +394,7 @@ import smtplib
 def smtp():
     return smtplib.SMTP("merlinux.eu")</pre>
       <p>Piszemy testy korzystające z funkcji smpt.</p>
-      <pre class="prettyprint" data-lang="shell">
-# content of test_module.py
+      <pre class="prettyprint" data-lang="test_module.py">
 def test_ehlo(smtp):
     response = smtp.ehlo()
     assert response[0] == 250
@@ -457,8 +447,7 @@ test_module.py:11: AssertionError
     </hgroup>
     <article class="smaller">
 <p>Przykład jak wykorzystać fixtury do operacji na plikach.</p>
-      <pre class="prettyprint" data-lang="python">
-# conftest.py
+      <pre class="prettyprint" data-lang="conftest.py">
 import pytest; import tempfile; import os
 
 @pytest.fixture()
@@ -466,9 +455,9 @@ def cleandir():
   newpath = tempfile.mkdtemp() # '/tmp/tmpKUnnz2'
   os.chdir(newpath)</pre>
 
-      <pre class="prettyprint" data-lang="python">
-# test_setenv.py
-import os; import pytest
+      <pre class="prettyprint" data-lang="test_setenv.py">
+import os
+import pytest
 
 @pytest.mark.usefixtures("cleandir")
 class TestDirectoryInit:
@@ -487,11 +476,9 @@ class TestDirectoryInit:
     <hgroup>
       <h2>@pytest.yield_fixture</h2>
     </hgroup>
-    <article class="smaller">
+    <article>
       <p>Możliwe jest też korzystanie z instrukcji yield w testach.</p>
-      <pre class="prettyprint" data-lang="python">
-# content of test_yield.py
-
+      <pre class="prettyprint" data-lang="test_yield.py">
 import pytest
 
 @pytest.yield_fixture
@@ -515,9 +502,7 @@ def test_has_lines(passwd):
     </hgroup>
     <article class="smaller">
       <p>lub dodatkowo za pomocą “with”</p>
-      <pre class="prettyprint" data-lang="python">
-# content of test_yield2.py
-
+      <pre class="prettyprint" data-lang="test_yield2.py">
 import pytest
 
 @pytest.yield_fixture
@@ -556,12 +541,12 @@ def test_func2():
 
   <slide>
     <hgroup>
-      <h2>Używanie instrukcji print do debagowania testu</h2>
+      <h2>Używanie instrukcji print do debugowania testu</h2>
     </hgroup>
     <article>
       <p>py.test wyświetla printy w testach, gdy test się nie powiedzie.</p>
       <pre class="prettyprint" data-lang="shell">
-$ py.test
+$ py.test test_module.py
 =========================== test session starts ============================
 platform linux2 -- Python 2.7.3 -- pytest-2.5.1
 collected 2 items
