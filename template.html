@@ -609,6 +609,7 @@ def test_myoutput(capsys):
       <ul>
         <li>Posiada osobny plik konfiguracyjny określając co jest klasą,  a co funkcją.</li>
         <li>Bazuje na zmiennych globalnych w pliku (Dlatego należy uważać na nazwy zmiennych globalnych w testach).</li>
+        <center><img src="images/detect.gif"></img></center>
       </ul>
     </article>
   </slide>
@@ -619,7 +620,7 @@ def test_myoutput(capsys):
     </hgroup>
     <article>
       <p>Globalnie definiowanie</p>
-      <pre class="prettyprint" data-lang="python">
+      <pre class="prettyprint" data-lang="key_auth/tests/test_api.py">
 test_app = webapp2.WSGIApplication(
     [('/test/', Handler)],
     debug=True,
@@ -639,7 +640,7 @@ test_app = webapp2.WSGIApplication(
     </hgroup>
     <article>
       <p>Poprawna wersja</p>
-      <pre class="prettyprint" data-lang="python">
+      <pre class="prettyprint" data-lang="key_auth/tests/test_api.py">
 class JsonPBTest(KITest):
     APPLICATION = webapp2.WSGIApplication(
         [('/test/', Handler)],
