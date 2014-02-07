@@ -295,7 +295,7 @@ test_strings_3.py:3: AssertionError
     </hgroup>
     <article>
       <div class="columns-1">
-      <p>Dla pojedyńczego modułu, który zawiela wiele klasy lub testów mozna wywołać setup i teardown.
+      <p>Dla pojedyńczego modułu, który zawiela wiele klasy lub testów można wywołać setup i teardown.
       </p>
       <pre class="prettyprint" data-lang="set_tear_down_module.py">
 def setup_module(module):
@@ -333,7 +333,7 @@ method.
     </hgroup>
     <article>
       <p>Zamiast używania instrukcji 'yield' w testach, twórcy proponują inny sposób tworzenia przejrzystego scenariuszu testowego.</p>
-      <pre class="prettyprint" data-lang="test_scenario_generators.py">
+      <pre class="prettyprint" data-lang="test_scenario_generators_5.py">
 def pytest_generate_tests(metafunc):
     for scenario in metafunc.cls.scenarios:
         metafunc.addcall(id=scenario[0], funcargs=scenario[1])
@@ -356,11 +356,11 @@ class TestSampleWithScenarios:
     </hgroup>
     <article>
       <pre class="prettyprint" data-lang="shell">
-$ py.test -v test_scenario_generators.py
+$ py.test -v test_scenario_generators_5.py
  
 ================================ test session starts ================================
 python: platform linux2 -- Python 2.6.2 -- /usr/bin/python
-test object 1: test_scenario_generators.py
+test object 1: test_scenario_generators_5.py
  
 test_parametrize3.py:14: TestSampleWithScenarios.test_demo[basic] PASS
 test_parametrize3.py:14: TestSampleWithScenarios.test_demo[advanced] PASS
