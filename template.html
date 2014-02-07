@@ -553,11 +553,11 @@ def test_func2():
     <article>
       <p>py.test wyświetla printy w testach, gdy test się nie powiedzie.</p>
       <pre class="prettyprint" data-lang="shell">
-$ py.test test_module.py
+$ py.test print_9.py
 =========================== test session starts ============================
 platform linux2 -- Python 2.7.3 -- pytest-2.5.1
 collected 2 items
-test_module.py .F
+print_9.py .F
 ================================= FAILURES =================================
 ________________________________ test_func2 ________________________________
 >
@@ -565,7 +565,7 @@ E
 def test_func2():
 assert False
 assert False
-test_module.py:9: AssertionError
+print_9.py:9: AssertionError
 ----------------------------- Captured stdout ------------------------------
 setting up < function test_func2 at 0x1eb37d0>
 ==================== 1 failed, 1 passed in 0.01 seconds ====================</pre>
@@ -578,16 +578,20 @@ setting up < function test_func2 at 0x1eb37d0>
     </hgroup>
     <article>
       <p>W argumentach testowej funkcji wymagany jest 'capsys'.</p>
-      <pre class="prettyprint" data-lang="python">
+      <pre class="prettyprint" data-lang="output_10.py">
+import sys
+
 def test_myoutput(capsys):
-    import pdb; pdb.set_trace()
     print ("hello")
     sys.stderr.write("world\n")
     out, err = capsys.readouterr()
+
     assert out == "hello\n"
     assert err == "world\n"
+
     print "next"
     out, err = capsys.readouterr()
+  
     assert out == "next\n"</pre>
     </article>
   </slide>
