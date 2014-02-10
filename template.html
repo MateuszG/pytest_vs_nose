@@ -409,7 +409,7 @@ def test_noop(smtp):
     assert response[0] == 250
     assert 0  # for demo purposes</pre>
 
-      <p>Piszemy testy korzystające z funkcji smpt w celu uzyskania sesji.</p>
+      <p>Piszemy testy korzystające z funkcji, łączącej się z protokołem smpt.</p>
     </article>
   </slide>
 
@@ -603,12 +603,12 @@ def test_myoutput(capsys):
     <article>
       <p>Nose</p>
       <ul>
-        <li>Używa wyrażeń regularnych do określania testu</li>
+        <li>Używa wyrażeń regularnych do określania testu.</li>
       </ul>
       <p>py.tests</p>
       <ul>
         <li>Posiada osobny plik konfiguracyjny określając co jest klasą,  a co funkcją.</li>
-        <li>Bazuje na zmiennych globalnych w pliku (Dlatego należy uważać na nazwy zmiennych globalnych w testach).</li>
+        <li>Bazuje na zmiennych globalnych w pliku (trzeba uważać na nazwy zmiennych globalnych w testach).</li>
         <center><img src="images/detect.gif"></img></center>
       </ul>
     </article>
@@ -718,6 +718,7 @@ parts =
     pytests
     ...
     </pre>
+    <center><img src="images/buildout.gif"></img></center>
     </article>
   </slide>
 
