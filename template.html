@@ -48,17 +48,15 @@ URL: https://code.google.com/p/io-2012-slides
     </hgroup>
     <article>
       <ul>
-        <li><b>nose</b> - jest rozszerzeniem możliwości z unittesta(dawny PyUnit), PyTest i DocTesta, który zapewnia przede wszystkim łatwość dodawania pluginów, a to dzięki dobrze udokumentowanym API.</li>
-        <li><b>py.test</b> - to w pełnym znaczeniu freamwork testowy, oferujący wiele opcji min. sprawdzanie PEP8, Junit, obsługuje unittesta, nosetesta.
-        Co go wyróżnia?
-          <ul>
-            Najbardziej zaawansowany projekt i co ważne nadal rozwijany, który zawiera większość funkcji z innych narzędzi testowych.
-            Dodatkowo rozszerza możliwość testowania funkcji.
-          </ul>
-          <ul>
-            Jest zorientowany na podejście funkcjonalne, bardziej niż inne freameworki testowe. Wprowadza dodatkowe możliwość do testowych funkcji, o czym w dalszej części prezentacji.
-          </ul>
-        </li>
+        <h3>nose</h3>
+        <li>Rozszerzeniem możliwości z unittesta(dawny PyUnit), PyTest i DocTesta.</li>
+        <li>Łatwość dodawania pluginów, dzięki dobrze udokumentowanym API.</li>
+        <br>
+        <h3>py.test</h3>
+        <li>Freamwork testowy, oferujący wiele opcji min. sprawdzanie PEP8, Junit, obsługuje unittesta, nosetesta.</li>
+        <li>Najbardziej zaawansowany projekt i nadal rozwijany.</li>
+        <li>Obecnie zawiera większość funkcji z innych narzędzi testowych.</li>
+        <li>Zorientowany na podejście funkcjonalne, bardziej niż inne freameworki testowe.</li>
       </ul>
     </article>
   </slide>
@@ -66,7 +64,6 @@ URL: https://code.google.com/p/io-2012-slides
   <slide>
     <hgroup>
       <h2>Szybkość wykonywania testów py.test vs nosetests</h2>
-      <!-- <h3>Subtitle Placeholder</h3> -->
     </hgroup>
     <article class="smaller">
       <p>We wcześniejszych wersjach szybkość py.testa była gorsza. Teraz różnica między nose-m a pytestem jest nieznacząca i bardzo zależna od ilość pluginów i użytych opcji.</p>
@@ -412,7 +409,7 @@ def test_noop(smtp):
     assert response[0] == 250
     assert 0  # for demo purposes</pre>
 
-      <p>Piszemy testy korzystające z funkcji smpt.</p>
+      <p>Piszemy testy korzystające z funkcji smpt w celu uzyskania sesji.</p>
     </article>
   </slide>
 
