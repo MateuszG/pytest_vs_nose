@@ -236,6 +236,62 @@ def test_eval(input, expected):
 
   <slide>
     <hgroup>
+      <h2>Testy offline i online</h2>
+    </hgroup>
+    <article>
+      <div class="columns-1">
+      <p>@pytest.mark.webtest pozwala na oznaczennie konkretnych testów do uruchomienia.</p>
+      <pre class="prettyprint" data-lang="test_expectation_2.py">
+py.test -v -m webtest - tylko oznaczone dekoratorem
+py.test -v -m "not webtest" - inwersja powyższej komendy
+      </pre>
+     
+      <pre class="prettyprint" data-lang="test_server.py">
+import pytest
+
+@pytest.mark.webtest
+def test_send_http():
+    pass # perform some webtest test for your app
+def test_something_quick():
+    pass
+def test_another():
+    pass
+</pre> 
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Testy offline i online</h2>
+    </hgroup>
+    <article>
+      <div class="columns-1">
+      <pre class="prettyprint" data-lang="test_expectation_2.py">
+$ py.test -v -m webtest
+=========================== test session starts ============================
+platform linux2 -- Python 2.7.3 -- py-1.4.20 -- pytest-2.5.2 -- /home/hpk/p/pytest/.tox/regen/bin/python
+collecting ... collected 3 items
+test_server.py:3: test_send_http PASSED
+=================== 2 tests deselected by "-m ’webtest’" ===================
+================== 1 passed, 2 deselected in 0.01 seconds ==================
+Or the inverse, running all tests except the webtest ones:
+$ py.test -v -m "not webtest"
+=========================== test session starts ============================
+platform linux2 -- Python 2.7.3 -- py-1.4.20 -- pytest-2.5.2 -- /home/hpk/p/pytest/.tox/regen/bin/python
+collecting ... collected 3 items
+test_server.py:6: test_something_quick PASSED
+test_server.py:8: test_another PASSED
+================= 1 tests deselected by "-m ’not webtest’" =================
+================== 2 passed, 1 deselected in 0.01 seconds ==================
+      </pre>
+      <p></p>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
       <h2>Setup i teardown dla całego modułu</h2>
     </hgroup>
     <article>
