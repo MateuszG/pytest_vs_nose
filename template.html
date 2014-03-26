@@ -99,13 +99,15 @@ URL: https://code.google.com/p/io-2012-slides
       <ul>
         <li><code>$ nosetests tests.test_accounts:AccountTestCase.test_recipes_library_other</code></li>
         <p></p>
-        <li><code>$ py.test -v -k "AccountTestCase and test_recipes_library_other"  tests/test_accounts.py</code></li>
+        <li><code>$ py.test tests/test_accounts.py::AccountTestCase::test_recipes_library_other</code></li>
         <p></p>
-        <li>Uwaga py.test używa wyrażeń regularnych do znalezienia testów, więc komenda:</li>
-        <li><code>$ py.test -v -k "AccountTestCase and test_recipes_library_other"  tests/test_accounts.py</code></li>
-        <p></p>
-        <li>uruchomi w tym wypadku testy:</li>
-        <li><code>test_recipes_library_other</code> i <code>test_recipes_library_other_with_private</code></li>
+        <li>Uwaga py.test przy opcji -k używa wyrażeń regularnych do znalezienia testów, więc poniższa komenda:</li>
+<code>$ py.test -k "test_recipes_library_other"  tests/test_accounts.py</code>
+<li>uruchomi w tym wypadku testy:</li>
+        <li><code>test_recipes_library_other</code> i</li>
+        <li><code>test_recipes_library_other_with_private</code></li>
+
+
       </ul>
     </article>
   </slide>

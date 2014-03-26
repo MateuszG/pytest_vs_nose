@@ -1,7 +1,7 @@
 var SLIDE_CONFIG = {
   // Slide settings
   settings: {
-    title: 'Nose vs py.test - porównianie',
+    title: 'Nose vs pytest - porównianie',
     subtitle: 'Który lepszy?',
     //eventInfo: {
     //  title: 'Google I/O',
