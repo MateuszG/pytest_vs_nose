@@ -26,11 +26,11 @@ var SLIDE_CONFIG = {
   // Author information
   presenters: [{
     name: 'Mateusz Gałganek',
-    company: 'STX Next',
+    company: '',
     gplus: '',
     twitter: '',
-    www: 'http://www.stxnext.pl',
-    github: 'https://github.com/MGalganek'
+    www: '',
+    github: 'https://github.com/MateuszG'
   }/*, {
     name: 'Second Name',
     company: 'Job Title, Google',
@@ -40,4 +40,3 @@ var SLIDE_CONFIG = {
     github: 'http://github.com/you'
   }*/]
 };
-
